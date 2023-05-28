@@ -15,6 +15,11 @@ defmodule Common do
     File.close(dev)
   end
 
+  def close({:ok, dev, lines}) do
+    File.close(dev)
+    lines
+  end
+
   def read_file({:error, _msg})
   do
     raise IO.StreamError, message: "Input stream could not be created."
@@ -23,5 +28,16 @@ defmodule Common do
   def read_file({:ok, stream})
   do
     IO.stream(stream, :line) |> Enum.map(fn line -> String.trim(line) end)
+  end
+
+  def read_file_pipe({:error, _msg})
+  do
+    raise IO.StreamError, message: "Input stream could not be created."
+  end
+
+  def read_file_pipe({:ok, stream})
+  do
+    lines = IO.stream(stream, :line) |> Enum.map(fn line -> String.trim(line) end)
+    {:ok, stream, lines}
   end
 end
