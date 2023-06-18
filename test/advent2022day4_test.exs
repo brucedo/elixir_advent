@@ -74,7 +74,10 @@ defmodule Advent2022day4Test do
   test "when given text sequence with two numeric ranges in the format of ###-###,###-### then convert_assignments will two lists consisting of numbers between the input ranges" do
     assignments = "2-8,3-7"
 
-    {left, right} = Advent2022day4.convert_assignments(assignments)
+    assignment_ranges = Advent2022day4.convert_assignments(assignments)
+
+    left = elem(assignment_ranges, 0)
+    right = elem(assignment_ranges, 1)
 
     assert left == [2, 3, 4, 5, 6, 7, 8]
     assert right == [3, 4, 5, 6, 7]
