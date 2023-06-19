@@ -56,6 +56,7 @@ defmodule Advent2022day5Test do
     assert move_list = ["move 1 from 2 to 1"]
   end
 
+  @tag :failing
   test "construct_stacks will generate a tuple of stacks from the start state section where the topmost crate is the last item inserted for each stack" do
     input = ["    [D]", "[N] [C]", "[Z] [M] [P]", " 1   2   3 "]
 
