@@ -85,4 +85,11 @@ defmodule Advent2022day5Test do
     assert movements == [{1, 2, 1}, {2, 3, 1}]
   end
 
+  test "given some movement, move_crates will move the correct number of crates to the correct location, from the correct starting point" do
+    stacks = {["N", "Z", :empty], ["D", "C", "M", :empty], ["P", :empty]}
+    movement = {1, 2, 1}
+
+    assert Advent2022day5.move_crates(stacks, movement) == {["D", "N", "Z", :empty], ["C", "M", :empty], ["P", :empty]}
+  end
+
 end

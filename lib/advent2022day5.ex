@@ -1,5 +1,21 @@
 defmodule Advent2022day5 do
 
+  def run() do
+    init = Common.open(File.cwd, "day5.txt") |> Common.read_file_pipe() |> Common.close()
+
+    {start_state, movements} = separate_input(init)
+    stacks = construct_stacks(start_state)
+    move_list = decode_movements(movements)
+
+    for move <- move_list do stacks = move_crates(stacks, move)
+    prettified = Tuple.to_list(stacks) |> List.to_string
+
+    IO.puts("finished sequence: " <> prettified)
+
+    end
+
+  end
+
   def separate_input([]) do
     []
   end
@@ -95,5 +111,22 @@ defmodule Advent2022day5 do
     # from = Integer.parse(from_str) |> elem(0)
     # to = Integer.parse(to_str) |> elem(0)
     {count, from, to}
+  end
+
+  @spec move_crates({list(any())}, {integer(), integer(), integer()}) :: {list(any())}
+  def move_crates(stacks, {0, _, _}) do
+    stacks
+  end
+
+  def move_crates(stacks, {count, source, destination}) do
+    source_stack = elem(stacks, source - 1)
+    dest_stack = elem(stacks, destination - 1)
+
+    {source_stack, dest_stack} = List.pop_at(source_stack, 0) |> then(fn ({crate, reduced_stack}) -> {reduced_stack, List.insert_at(dest_stack, 0, crate)} end)
+    # dest_stack = List.insert_at(dest_stack, 0, crate)
+
+    stacks = put_elem(stacks,  source - 1, source_stack) |> put_elem(destination - 1, dest_stack)
+
+    move_crates(stacks, {count-1, source, destination})
   end
 end
