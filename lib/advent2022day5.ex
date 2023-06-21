@@ -1,19 +1,21 @@
 defmodule Advent2022day5 do
 
   def run() do
-    init = Common.open(File.cwd, "day5.txt") |> Common.read_file_pipe() |> Common.close()
+    init = Common.open(File.cwd, "day5.txt") |> Common.read_raw_pipe() |> Common.close()
 
     {start_state, movements} = separate_input(init)
+    IO.puts("Raw input: " <> List.to_string(start_state))
     stacks = construct_stacks(start_state)
     move_list = decode_movements(movements)
 
-    for move <- move_list do stacks = move_crates(stacks, move)
-    prettified = Tuple.to_list(stacks) |> List.to_string
+    IO.puts("Stacks: " <> inspect(stacks))
+    IO.puts("Moves: " <> inspect(move_list))
 
-    IO.puts("finished sequence: " <> prettified)
+    crate_mover_9000_stacks = perform_movements(stacks, move_list)
+    crate_mover_9001_stacks = perform_9001_movements(stacks, move_list)
 
-    end
-
+    for stack <- Tuple.to_list(crate_mover_9000_stacks) do IO.puts("Last item: " <> inspect(stack)) end
+    for stack <- Tuple.to_list(crate_mover_9001_stacks) do IO.puts("Last item: " <> inspect(stack)) end
   end
 
   def separate_input([]) do
@@ -113,12 +115,40 @@ defmodule Advent2022day5 do
     {count, from, to}
   end
 
+
+  @spec perform_movements({list(any())}, list({integer(), integer(), integer()})) :: {list(any())}
+
+  def perform_movements(stacks, []) do
+    stacks
+  end
+
+  def perform_movements(stacks, movements) do
+    {movement, remaining_movements} = List.pop_at(movements, 0)
+    stacks = move_crates(stacks, movement)
+
+    perform_movements(stacks, remaining_movements)
+  end
+
+  @spec perform_9001_movements({list(any())}, list({integer(), integer(), integer()})) :: {list(any())}
+  def perform_9001_movements(stacks, []) do
+    stacks
+  end
+
+  def perform_9001_movements(stacks, movements) do
+    {movement, remaining_movements} = List.pop_at(movements, 0)
+    stacks = move_crates_9001(stacks, movement)
+
+    perform_9001_movements(stacks, remaining_movements)
+  end
+
   @spec move_crates({list(any())}, {integer(), integer(), integer()}) :: {list(any())}
   def move_crates(stacks, {0, _, _}) do
     stacks
   end
 
+
   def move_crates(stacks, {count, source, destination}) do
+    IO.puts("Moving " <> Integer.to_string(count) <> " crates from " <> Integer.to_string(source) <> " to " <> Integer.to_string(destination))
     source_stack = elem(stacks, source - 1)
     dest_stack = elem(stacks, destination - 1)
 
@@ -128,5 +158,29 @@ defmodule Advent2022day5 do
     stacks = put_elem(stacks,  source - 1, source_stack) |> put_elem(destination - 1, dest_stack)
 
     move_crates(stacks, {count-1, source, destination})
+  end
+
+  @spec move_crates_9001({list(any())}, {integer(), integer(), integer()}) :: {list(any())}
+  def move_crates_9001(stacks, {count, source, destination}) do
+    source_stack = elem(stacks, source - 1)
+    dest_stack = elem(stacks, destination - 1)
+
+    {removed_crates, altered_source} = remove_crates(source_stack, count)
+    altered_dest = removed_crates ++ dest_stack
+
+    put_elem(stacks, source - 1, altered_source) |> put_elem(destination - 1, altered_dest)
+
+  end
+
+  @spec remove_crates(list(any()), integer())  :: {list(String.t()), list(any())}
+  defp remove_crates(stack, 0) do
+    {[], stack}
+  end
+
+  defp remove_crates(stack, count) do
+    {head, tail} = List.pop_at(stack, 0)
+
+    {new_tail, remaining} = remove_crates(tail, count - 1)
+    {List.insert_at(new_tail, 0, head), remaining}
   end
 end

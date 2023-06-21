@@ -92,4 +92,29 @@ defmodule Advent2022day5Test do
     assert Advent2022day5.move_crates(stacks, movement) == {["D", "N", "Z", :empty], ["C", "M", :empty], ["P", :empty]}
   end
 
+  test "given some list of movements, perform_movements will process each list of movements in order from first to last" do
+    stacks = {["N", "Z", :empty], ["D", "C", "M", :empty], ["P", :empty]}
+    movement = [{1, 2, 1}, {3, 1, 3}, {2, 2, 1}, {1, 1, 2}]
+
+    stacks = Advent2022day5.perform_movements(stacks, movement)
+
+    assert stacks == {["C", :empty], ["M", :empty], ["Z", "N", "D", "P", :empty]}
+  end
+
+  test "given some list of movements, perform_9001_movements will move the number of crates from the source stack to the destination while keeping the order" do
+    stacks = {["N", "Z", :empty], ["D", "C", "M", :empty], ["P", :empty]}
+    movement = [{1, 2, 1}, {3, 1, 3}, {2, 2, 1}, {1, 1, 2}]
+
+    stacks = Advent2022day5.perform_9001_movements(stacks, movement)
+
+    assert stacks == {["M", :empty], ["C", :empty], ["D", "N", "Z", "P", :empty]}
+  end
+
+  test "given some movement, move_crates_9001 will move all of the crates from the source to the destination and keep the original order" do
+    stacks = {["D", "N", "Z", :empty], ["C", "M", :empty], ["P", :empty]}
+    movement = {3, 1, 3}
+
+    assert Advent2022day5.move_crates_9001(stacks, movement) == {[:empty], ["C", "M", :empty], ["D", "N", "Z", "P", :empty]}
+  end
+
 end
