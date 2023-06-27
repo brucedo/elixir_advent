@@ -56,7 +56,6 @@ defmodule Advent2022day5 do
   defp load_stacks(stack_state, stacks) do
 
     {crates_to_load, remaining} = List.pop_at(stack_state, 0)
-    IO.puts("crates to load: " <> crates_to_load <> ", remaining: " <> List.to_string(remaining))
     stacks = load_crates(crates_to_load, stacks)
     load_stacks(remaining, stacks)
 
@@ -71,12 +70,9 @@ defmodule Advent2022day5 do
   end
 
   defp load_crates(stack_row, [first | rest]) do
-    IO.puts("New call to load_crates")
-    IO.puts(stack_row)
     {current_column, remaining_columns} = String.split_at(stack_row, 4)
     updated = String.at(current_column, 1) |> String.trim() |> safe_crate_insert(first)
     temp = load_crates(remaining_columns, rest) |> List.insert_at(0, updated)
-    IO.puts("Exiting stacker for row " <> stack_row)
     temp
   end
 
@@ -109,9 +105,6 @@ defmodule Advent2022day5 do
     {count, rest} = List.pop_at(tokens, 0) |> then(fn ({count_str, rest}) -> {Integer.parse(count_str) |> elem(0), rest} end)
     {from, rest} = List.pop_at(rest, 0) |> then(fn ({from_str, rest}) -> {Integer.parse(from_str) |> elem(0), rest} end)
     {to, _} = List.pop_at(rest, 0)  |> then(fn ({to_str, rest}) -> {Integer.parse(to_str) |> elem(0), rest} end)
-    # count = Integer.parse(count_str) |> elem(0)
-    # from = Integer.parse(from_str) |> elem(0)
-    # to = Integer.parse(to_str) |> elem(0)
     {count, from, to}
   end
 
@@ -148,12 +141,10 @@ defmodule Advent2022day5 do
 
 
   def move_crates(stacks, {count, source, destination}) do
-    IO.puts("Moving " <> Integer.to_string(count) <> " crates from " <> Integer.to_string(source) <> " to " <> Integer.to_string(destination))
     source_stack = elem(stacks, source - 1)
     dest_stack = elem(stacks, destination - 1)
 
     {source_stack, dest_stack} = List.pop_at(source_stack, 0) |> then(fn ({crate, reduced_stack}) -> {reduced_stack, List.insert_at(dest_stack, 0, crate)} end)
-    # dest_stack = List.insert_at(dest_stack, 0, crate)
 
     stacks = put_elem(stacks,  source - 1, source_stack) |> put_elem(destination - 1, dest_stack)
 
