@@ -1,22 +1,30 @@
 defmodule Advent2022day4 do
-
   def run() do
-    assignment_list = Common.open(File.cwd, "day4.txt") |> Common.read_file_pipe() |> Common.close()
+    assignment_list =
+      Common.open(File.cwd(), "day4.txt") |> Common.read_file_pipe() |> Common.close()
 
     assignment_ranges = Enum.map(assignment_list, &convert_assignments/1)
 
-    proper_subsets = for {left_range, right_range} <- assignment_ranges, do: starts_later(left_range, right_range) == ends_sooner(left_range, right_range)
+    proper_subsets =
+      for {left_range, right_range} <- assignment_ranges,
+          do: starts_later(left_range, right_range) == ends_sooner(left_range, right_range)
 
-    overlap_count = Enum.filter(proper_subsets, fn(element) -> element == true end) |> Enum.count() |> Integer.to_string()
+    overlap_count =
+      Enum.filter(proper_subsets, fn element -> element == true end)
+      |> Enum.count()
+      |> Integer.to_string()
 
     IO.puts("There are " <> overlap_count <> " proper subsets.")
 
-    any_overlaps = for {left_range, right_range} <- assignment_ranges, do: any_overlap(left_range, right_range)
+    any_overlaps =
+      for {left_range, right_range} <- assignment_ranges, do: any_overlap(left_range, right_range)
 
-    any_overlap_count = Enum.filter(any_overlaps, fn(element) -> element end) |> Enum.count() |> Integer.to_string()
+    any_overlap_count =
+      Enum.filter(any_overlaps, fn element -> element end) |> Enum.count() |> Integer.to_string()
 
-    IO.puts("There are " <> any_overlap_count <> " total pairs with any overlap at all between them.")
-
+    IO.puts(
+      "There are " <> any_overlap_count <> " total pairs with any overlap at all between them."
+    )
   end
 
   def any_overlap(left, right) do
@@ -25,7 +33,8 @@ defmodule Advent2022day4 do
     left_start = List.first(left)
     left_end = List.last(left)
 
-    (left_start >= right_start && left_start <= right_end) || (right_start >= left_start && right_start <= left_end)
+    (left_start >= right_start && left_start <= right_end) ||
+      (right_start >= left_start && right_start <= left_end)
   end
 
   def starts_later([], []) do
@@ -41,8 +50,12 @@ defmodule Advent2022day4 do
     right_first = List.first(right)
 
     cond do
-      left_first > right_first -> left
-      left_first < right_first -> right
+      left_first > right_first ->
+        left
+
+      left_first < right_first ->
+        right
+
       left_first == right_first ->
         cond do
           length(left) > length(right) -> right
@@ -52,11 +65,11 @@ defmodule Advent2022day4 do
     end
   end
 
-  def ends_sooner([], [])  do
+  def ends_sooner([], []) do
     []
   end
 
-  def ends_sooner([], right)  do
+  def ends_sooner([], right) do
     right
   end
 
@@ -68,9 +81,13 @@ defmodule Advent2022day4 do
     left_last = List.last(left)
     right_last = List.last(right)
 
-    cond  do
-      left_last > right_last -> right
-      left_last < right_last -> left
+    cond do
+      left_last > right_last ->
+        right
+
+      left_last < right_last ->
+        left
+
       left_last == right_last ->
         cond do
           length(left) > length(right) -> right
@@ -117,5 +134,4 @@ defmodule Advent2022day4 do
   defp rangeToNumbers(start, stop) when start > stop do
     raise("Start should never be bigger than stop.")
   end
-
 end

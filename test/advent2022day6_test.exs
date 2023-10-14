@@ -20,15 +20,18 @@ defmodule Advent2022Day6Test do
     bucket = Tuple.duplicate(0, 26)
     index = 15
 
-    assert AdventDay6.bucket_adder(bucket, index) == {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, false}
+    assert AdventDay6.bucket_adder(bucket, index) ==
+             {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+              false}
   end
-
 
   test "Given a tuple-bucket and a numeric index, bucket_adder will increment the value at the index in the bucket and return bucket and false if the new value != 2" do
     bucket = Tuple.duplicate(0, 26) |> put_elem(12, 1)
     index = 12
 
-    assert AdventDay6.bucket_adder(bucket, index) == {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, true}
+    assert AdventDay6.bucket_adder(bucket, index) ==
+             {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+              true}
   end
 
   test "Given some string, find_start_of_packet returns the number of characters from the start of the sequence to the last letter of the first quadgram with no duplicate characters" do
@@ -61,6 +64,4 @@ defmodule Advent2022Day6Test do
 
     assert AdventDay6.find_start_of_packet(bytestream) == 11
   end
-
-
 end

@@ -26,5 +26,4 @@ defmodule Advent2022Day2Test do
     in_list = [{"A", "Y"}, {"B", "X"}, {"C", "Z"}]
     assert Advent2022Day2.pick_plays(in_list) == [{"A", "X"}, {"B", "X"}, {"C", "X"}]
   end
-
 end

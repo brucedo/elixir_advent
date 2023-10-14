@@ -56,7 +56,7 @@ defmodule Advent2022day4Test do
 
   test "ends_sooner will return the non-empty list if one of the two inputs is non-empty" do
     left = []
-    right = [1 , 2, 3, 4, 5]
+    right = [1, 2, 3, 4, 5]
 
     ends_sooner = Advent2022day4.ends_sooner(left, right)
 
@@ -82,5 +82,4 @@ defmodule Advent2022day4Test do
     assert left == [2, 3, 4, 5, 6, 7, 8]
     assert right == [3, 4, 5, 6, 7]
   end
-
 end

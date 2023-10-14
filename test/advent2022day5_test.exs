@@ -3,11 +3,27 @@ defmodule Advent2022day5Test do
   doctest Advent2022day4
 
   test "separate_input will turn well farmatted input into a two element tuple of the stack start state and the move list" do
-    input = ["    [D]", "[N] [C]", "[Z] [M] [P]", " 1   2   3 ", "", "move 1 from 2 to 1", "move 3 from 1 to 3", "move 2 from 2 to 1", "move 1 from 1 to 2"]
+    input = [
+      "    [D]",
+      "[N] [C]",
+      "[Z] [M] [P]",
+      " 1   2   3 ",
+      "",
+      "move 1 from 2 to 1",
+      "move 3 from 1 to 3",
+      "move 2 from 2 to 1",
+      "move 1 from 1 to 2"
+    ]
 
     {start_state, move_list} = Advent2022day5.separate_input(input)
     assert start_state == ["    [D]", "[N] [C]", "[Z] [M] [P]", " 1   2   3 "]
-    assert move_list == ["move 1 from 2 to 1", "move 3 from 1 to 3", "move 2 from 2 to 1", "move 1 from 1 to 2"]
+
+    assert move_list == [
+             "move 1 from 2 to 1",
+             "move 3 from 1 to 3",
+             "move 2 from 2 to 1",
+             "move 1 from 1 to 2"
+           ]
   end
 
   test "separate_input will return an empty tuple if the input is empty" do
@@ -25,11 +41,35 @@ defmodule Advent2022day5Test do
   end
 
   test "separate_input will never return a tuple whose arity > 2 no matter how many section separators are included in the input" do
-    input = ["    [D]", "[N] [C]", "[Z] [M] [P]", " 1   2   3 ", "", "", "", "", "move 1 from 2 to 1", "move 3 from 1 to 3", "", "move 2 from 2 to 1", "move 1 from 1 to 2"]
+    input = [
+      "    [D]",
+      "[N] [C]",
+      "[Z] [M] [P]",
+      " 1   2   3 ",
+      "",
+      "",
+      "",
+      "",
+      "move 1 from 2 to 1",
+      "move 3 from 1 to 3",
+      "",
+      "move 2 from 2 to 1",
+      "move 1 from 1 to 2"
+    ]
 
     {start_state, move_list} = Advent2022day5.separate_input(input)
     assert start_state == ["    [D]", "[N] [C]", "[Z] [M] [P]", " 1   2   3 "]
-    assert move_list == ["", "", "", "move 1 from 2 to 1", "move 3 from 1 to 3", "", "move 2 from 2 to 1", "move 1 from 1 to 2"]
+
+    assert move_list == [
+             "",
+             "",
+             "",
+             "move 1 from 2 to 1",
+             "move 3 from 1 to 3",
+             "",
+             "move 2 from 2 to 1",
+             "move 1 from 1 to 2"
+           ]
   end
 
   test "separate_input will produce an empty list for the move_list if there is no separator" do
@@ -88,7 +128,8 @@ defmodule Advent2022day5Test do
     stacks = {["N", "Z", :empty], ["D", "C", "M", :empty], ["P", :empty]}
     movement = {1, 2, 1}
 
-    assert Advent2022day5.move_crates(stacks, movement) == {["D", "N", "Z", :empty], ["C", "M", :empty], ["P", :empty]}
+    assert Advent2022day5.move_crates(stacks, movement) ==
+             {["D", "N", "Z", :empty], ["C", "M", :empty], ["P", :empty]}
   end
 
   test "given some list of movements, perform_movements will process each list of movements in order from first to last" do
@@ -113,7 +154,7 @@ defmodule Advent2022day5Test do
     stacks = {["D", "N", "Z", :empty], ["C", "M", :empty], ["P", :empty]}
     movement = {3, 1, 3}
 
-    assert Advent2022day5.move_crates_9001(stacks, movement) == {[:empty], ["C", "M", :empty], ["D", "N", "Z", "P", :empty]}
+    assert Advent2022day5.move_crates_9001(stacks, movement) ==
+             {[:empty], ["C", "M", :empty], ["D", "N", "Z", "P", :empty]}
   end
-
 end

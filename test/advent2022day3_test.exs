@@ -1,5 +1,4 @@
-defmodule Advent2022day3Test
-do
+defmodule Advent2022day3Test do
   use ExUnit.Case
   doctest Advent2022day3
 
@@ -63,7 +62,10 @@ do
 
   test "Given some input list of strings, triplify()/1 will return a list of lists, where each nested list is three sequential strings from the input" do
     input = ["asdf", "jklm", "zxcv", "qwert", "yuio", "sdfgh"]
-    assert Advent2022day3.triplify(input) == [["asdf", "jklm", "zxcv"], ["qwert", "yuio", "sdfgh"]]
-  end
 
+    assert Advent2022day3.triplify(input) == [
+             ["asdf", "jklm", "zxcv"],
+             ["qwert", "yuio", "sdfgh"]
+           ]
+  end
 end

@@ -7,7 +7,10 @@ defmodule Advent2022Test do
   end
 
   test "when handed a list of mixed empty and non-empty strings splitify will produce a sequence of lists where each sequence is composed of all the entries between non-empty entries" do
-    assert Advent2022Day1.splitify(["1", "2", "3", "4", "", "5", "6", "7"]) == [["1", "2", "3", "4"], ["5", "6", "7"]]
+    assert Advent2022Day1.splitify(["1", "2", "3", "4", "", "5", "6", "7"]) == [
+             ["1", "2", "3", "4"],
+             ["5", "6", "7"]
+           ]
   end
 
   test "when handed an list of purely empty strings splitify will produce an empty list" do
@@ -27,7 +30,10 @@ defmodule Advent2022Test do
   end
 
   test "when handed a list of lists of numbers in string form, inventories_to_number will transform each sublist of strings into a sublist of numbers." do
-    assert Advent2022Day1.inventories_to_number([["1", "2", "3", "4"], ["5", "6", "7"]]) == [[1, 2, 3, 4], [5, 6, 7]]
+    assert Advent2022Day1.inventories_to_number([["1", "2", "3", "4"], ["5", "6", "7"]]) == [
+             [1, 2, 3, 4],
+             [5, 6, 7]
+           ]
   end
 
   test "when handed an empty list, inventories_to_number will simply produce an empty list." do
@@ -41,5 +47,4 @@ defmodule Advent2022Test do
   test "sum_inventories reduces an empty list to an empty list" do
     assert Advent2022Day1.sum_inventories([]) == []
   end
-
 end
