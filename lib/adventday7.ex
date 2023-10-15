@@ -156,8 +156,7 @@ defmodule AdventDay7 do
     end
   end
 
-  @spec make_dir(String.t(), list(String.t())) ::
-          list(%{atom() => String.t(), atom() => list(), atom() => list()})
+  @spec make_dir(String.t(), list(String.t())) :: list(%{atom() => String.t(), atom() => list(), atom() => list()})
 
   def make_dir("", _) do
     raise "Uninitialized current directory."
